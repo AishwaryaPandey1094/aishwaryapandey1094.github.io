@@ -53,7 +53,7 @@ Open `index.html` in any text editor (Notepad, TextEdit, VS Code) and search/rep
 | Find | Replace With |
 |------|-------------|
 | `aishwaryapandey1094@gmail.com` | Your email |
-| `617-858-9509` | Your phone |
+| `617-858-xxxx` | Your phone |
 | `https://www.linkedin.com/in/aishwaryapandey10/` | Your LinkedIn URL |
 | `San Francisco Bay Area` | Your location |
 
