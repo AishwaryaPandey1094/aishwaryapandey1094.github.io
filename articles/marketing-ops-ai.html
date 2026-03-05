@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The System AI Runs On — Aishwarya Pandey</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f1117;
+    --muted: #6b7280;
+    --accent: #1d4ed8;
+    --accent-light: #eff6ff;
+    --accent-mid: #bfdbfe;
+    --warm: #f97316;
+    --warm-light: #fff7ed;
+    --green: #059669;
+    --green-light: #ecfdf5;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --border: #e5e7eb;
+    --surface: #f9fafb;
+    --white: #ffffff;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--white);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 17px;
+  }
+
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 64px 32px 120px;
+  }
+
+  /* ── Header ── */
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  h1.title {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+
+  h1.title em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .subtitle {
+    font-size: 19px;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 640px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  .byline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 56px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #7c3aed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .byline strong { color: var(--ink); }
+
+  /* ── Body copy ── */
+  .body-copy {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #1f2937;
+    margin-bottom: 28px;
+  }
+
+  .body-copy strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Section headings ── */
+  h2.section-heading {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 64px 0 20px;
+    line-height: 1.25;
+  }
+
+  h3.sub-heading {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 48px 0 16px;
+  }
+
+  /* ── Pull quote ── */
+  .pull-quote {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ink);
+    border-left: 3px solid var(--accent);
+    padding: 20px 28px;
+    margin: 48px 0;
+    line-height: 1.5;
+    background: var(--accent-light);
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* ── Callout box ── */
+  .callout {
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin: 36px 0;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .callout.blue { background: var(--accent-light); border: 1px solid var(--accent-mid); }
+  .callout.orange { background: var(--warm-light); border: 1px solid #fed7aa; }
+  .callout.green { background: var(--green-light); border: 1px solid #a7f3d0; }
+
+  .callout-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+
+  .callout-body { font-size: 15.5px; line-height: 1.7; color: #374151; }
+  .callout-body strong { color: var(--ink); }
+
+  /* ── Graphic containers ── */
+  .graphic-wrap {
+    margin: 48px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .graphic-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    padding: 14px 20px 0;
+  }
+
+  .graphic-caption {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    padding: 10px 24px 18px;
+    font-style: italic;
+  }
+
+  svg { display: block; }
+
+  /* ── Two-column comparison ── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 36px 0;
+  }
+
+  .compare-card {
+    border-radius: 10px;
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+  }
+  .compare-card.good { background: var(--green-light); border-color: #a7f3d0; }
+  .compare-card.bad { background: var(--red-light); border-color: #fecaca; }
+
+  .compare-card .card-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .compare-card.good .card-label { color: var(--green); }
+  .compare-card.bad .card-label { color: var(--red); }
+
+  .compare-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .compare-card li {
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: #374151;
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .compare-card li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    font-size: 12px;
+    top: 2px;
+  }
+  .compare-card.good li::before { color: var(--green); }
+  .compare-card.bad li::before { color: var(--red); }
+
+  /* ── Numbered list ── */
+  .numbered-list {
+    list-style: none;
+    margin: 28px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .numbered-list li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .num-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .num-text { font-size: 16px; line-height: 1.65; color: #1f2937; }
+  .num-text strong { color: var(--ink); }
+
+  /* ── Maturity table ── */
+  .maturity-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 32px 0;
+    font-size: 14px;
+  }
+
+  .maturity-table th {
+    background: var(--ink);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+
+  .maturity-table th:first-child { border-radius: 8px 0 0 0; }
+  .maturity-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .maturity-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.55;
+    color: #374151;
+  }
+
+  .maturity-table tr:last-child td { border-bottom: none; }
+  .maturity-table tr:nth-child(even) td { background: var(--surface); }
+  .maturity-table td:first-child { font-weight: 600; color: var(--ink); }
+
+  .level-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 99px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .level-1 { background: #fee2e2; color: #991b1b; }
+  .level-2 { background: #fef3c7; color: #92400e; }
+  .level-3 { background: #d1fae5; color: #065f46; }
+
+  /* ── Closing ── */
+  .closing {
+    margin-top: 72px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .closing p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #1f2937;
+    margin-bottom: 20px;
+  }
+
+  .tag-line {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--accent);
+    margin-top: 36px;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0;
+  }
+
+  /* Notion copy note */
+  .notion-note {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #92400e;
+    margin-bottom: 48px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  @media (max-width: 600px) {
+    .compare-grid { grid-template-columns: 1fr; }
+    .page { padding: 40px 20px 80px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="notion-note">
+    <span>💡</span>
+    <span><strong>Notion tip:</strong> Copy this page's text content into Notion. SVG graphics are embedded inline — screenshot them individually or use as reference to recreate in Notion's native embed/image blocks.</span>
+  </div>
+
+  <!-- Header -->
+  <div class="eyebrow">Marketing Operations · AI</div>
+  <h1 class="title">The system AI runs on<br>is <em>yours to build</em></h1>
+  <p class="subtitle">Everyone's talking about what AI can do for marketing. Not enough people are asking whether their marketing operation is actually ready for it.</p>
+
+  <div class="byline">
+    <div class="avatar">AP</div>
+    <div>
+      <strong>Aishwarya Pandey</strong> &nbsp;·&nbsp; Marketing Operations &amp; Analytics &nbsp;·&nbsp; <span>March 2026</span>
+    </div>
+  </div>
+
+  <!-- ─────────────── Opening ─────────────── -->
+  <p class="body-copy">
+    I've been watching something unfold in real time across marketing organizations. Everyone is implementing AI tools. ChatGPT, 6sense, Salesforce Einstein, Demandbase — each promising a smarter, faster, more automated marketing engine. And some teams are genuinely getting more done.
+  </p>
+  <p class="body-copy">
+    But other teams are discovering something uncomfortable: the AI is working exactly as designed, and the results are getting worse. Leads routed to the wrong reps, faster. Attribution reports generated in seconds, with the wrong denominator. Scoring models that confidently rank your highest-intent accounts at the bottom because the behavioral data feeding them was never cleaned.
+  </p>
+
+  <div class="pull-quote">
+    AI doesn't create order from chaos. It accelerates whatever system is already there. Strong foundation, stronger results. Broken foundation, broken results — at scale.
+  </div>
+
+  <p class="body-copy">
+    This is the conversation I think Marketing Ops needs to be having right now. Not "which AI tool should we buy" — but "what does our operation need to look like for AI to actually work here?"
+  </p>
+  <p class="body-copy">
+    There are four areas where I see this play out most clearly: <strong>process, data architecture, governance, and revenue mechanics.</strong> Get these right, and AI becomes a genuine multiplier. Leave them patchy, and you've just automated your existing problems.
+  </p>
+
+  <hr class="divider">
+
+  <!-- ─────────────── Section 1: Process ─────────────── -->
+  <h2 class="section-heading">01. Process: the lifecycle AI needs to read</h2>
+
+  <p class="body-copy">
+    When people talk about AI automating marketing, they usually mean execution — send the email, score the lead, route the record. What they skip over is that AI needs a clean lifecycle to automate against. Without defined stages, clear entry conditions, and documented handoffs, AI has nothing reliable to work with.
+  </p>
+
+  <p class="body-copy">
+    The most common thing I see is undefined MQL criteria. Not undocumented — genuinely undefined. Marketing thinks it means one thing. Sales thinks it means another. When you layer AI scoring on top of that, it does not resolve the disagreement. It picks a side and moves fast.
+  </p>
+
+  <!-- GRAPHIC 1: Lifecycle Flow -->
+  <div class="graphic-wrap">
+    <div class="graphic-label">Graphic 01 — A clean lifecycle has five stages, each with an owner and defined conditions</div>
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" width="100%" style="padding:28px 24px 20px;">
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
+        </marker>
+      </defs>
+      <!-- Stage boxes -->
+      <!-- 1 Raw Lead -->
+      <rect x="10" y="60" width="118" height="72" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+      <text x="69" y="90" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#1d4ed8">RAW LEAD</text>
+      <text x="69" y="106" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">Form fill /</text>
+      <text x="69" y="119" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">intent signal</text>
+      <text x="69" y="148" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#94a3b8">MARKETING</text>
+      <!-- arrow -->
+      <line x1="128" y1="96" x2="148" y2="96" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+      <!-- 2 MQL -->
+      <rect x="150" y="60" width="118" height="72" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+      <text x="209" y="90" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#1d4ed8">MQL</text>
+      <text x="209" y="106" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">ICP fit +</text>
+      <text x="209" y="119" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">behavior threshold</text>
+      <text x="209" y="148" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#94a3b8">MARKETING</text>
+      <line x1="268" y1="96" x2="288" y2="96" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+      <!-- 3 SAL -->
+      <rect x="290" y="60" width="118" height="72" rx="8" fill="#f0fdf4" stroke="#a7f3d0" stroke-width="1.5"/>
+      <text x="349" y="90" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#059669">SAL</text>
+      <text x="349" y="106" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">Sales reviews</text>
+      <text x="349" y="119" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">and accepts</text>
+      <text x="349" y="148" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#94a3b8">SALES</text>
+      <line x1="408" y1="96" x2="428" y2="96" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+      <!-- 4 SQO -->
+      <rect x="430" y="60" width="118" height="72" rx="8" fill="#f0fdf4" stroke="#a7f3d0" stroke-width="1.5"/>
+      <text x="489" y="90" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#059669">SQO</text>
+      <text x="489" y="106" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">Discovery done,</text>
+      <text x="489" y="119" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">active deal</text>
+      <text x="489" y="148" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#94a3b8">SALES</text>
+      <line x1="548" y1="96" x2="568" y2="96" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+      <!-- 5 Closed -->
+      <rect x="570" y="60" width="118" height="72" rx="8" fill="#fef3c7" stroke="#fde68a" stroke-width="1.5"/>
+      <text x="629" y="90" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#92400e">CLOSED</text>
+      <text x="629" y="106" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">Won / Lost</text>
+      <text x="629" y="119" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">decision recorded</text>
+      <text x="629" y="148" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#94a3b8">SALES + REVOPS</text>
+    </svg>
+    <div class="graphic-caption">Each stage needs a named owner, a data-defined entry condition, and a documented exit condition. Not a slide. Actual rules in the system.</div>
+  </div>
+
+  <p class="body-copy">
+    What AI does really well with process is surface velocity problems — flagging leads stuck in a stage too long, automating transitions when rules are met, alerting when handoff SLAs are missed. What it cannot do is tell you what the rules should be. That is a human conversation between marketing, sales, and RevOps. It requires trust, alignment, and someone willing to write the definition down and defend it in a QBR.
+  </p>
+
+  <div class="callout blue">
+    <span class="callout-icon">🔍</span>
+    <div class="callout-body"><strong>Quick diagnostic:</strong> Can you write the entry and exit conditions for every stage in your lifecycle in a single document — and get Sales leadership to sign off? If not, your process foundation is not AI-ready yet.</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ─────────────── Section 2: Data Architecture ─────────────── -->
+  <h2 class="section-heading">02. Data architecture: what AI actually reads</h2>
+
+  <p class="body-copy">
+    Data architecture is not about having data. Everyone has data. It's about how that data is collected, where it lives, how systems talk to each other, and whether the version of "pipeline" in your MAP matches the version in your CRM, which matches the version in your BI tool.
+  </p>
+
+  <p class="body-copy">
+    Spoiler: it usually doesn't. And that gap is where AI creates the most damage, because it picks one version confidently and runs with it.
+  </p>
+
+  <!-- GRAPHIC 2: Data Flow Stack -->
+  <div class="graphic-wrap">
+    <div class="graphic-label">Graphic 02 — The four layers of marketing data architecture</div>
+    <svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" width="100%" style="padding:24px;">
+      <!-- Layer 4: Reporting (top) -->
+      <rect x="40" y="20" width="600" height="60" rx="8" fill="#1d4ed8"/>
+      <text x="340" y="47" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" font-weight="700" fill="white">LAYER 4: REPORTING</text>
+      <text x="340" y="64" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#bfdbfe">Tableau · Sigma · Executive Dashboards</text>
+
+      <!-- arrow down -->
+      <line x1="340" y1="80" x2="340" y2="98" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr2)"/>
+      <defs>
+        <marker id="arr2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
+        </marker>
+        <marker id="arr2u" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto">
+          <polygon points="8 0, 0 3, 8 6" fill="#94a3b8"/>
+        </marker>
+      </defs>
+
+      <!-- Layer 3: System of Record -->
+      <rect x="40" y="100" width="600" height="60" rx="8" fill="#1e40af"/>
+      <text x="340" y="127" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" font-weight="700" fill="white">LAYER 3: SYSTEM OF RECORD (CRM)</text>
+      <text x="340" y="144" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#bfdbfe">Salesforce — single source of truth for pipeline, contacts, accounts</text>
+
+      <!-- bidirectional arrows -->
+      <line x1="320" y1="160" x2="320" y2="178" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr2)"/>
+      <line x1="360" y1="178" x2="360" y2="160" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+      <!-- Layer 2: Integrations -->
+      <rect x="40" y="180" width="600" height="60" rx="8" fill="#2563eb"/>
+      <text x="340" y="207" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" font-weight="700" fill="white">LAYER 2: INTEGRATIONS</text>
+      <text x="340" y="224" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#bfdbfe">MAP ↔ CRM · ABM ↔ CRM · Paid Channels ↔ CRM · GA4 ↔ CRM</text>
+
+      <!-- bidirectional arrows -->
+      <line x1="320" y1="240" x2="320" y2="258" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr2)"/>
+      <line x1="360" y1="258" x2="360" y2="240" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+      <!-- Layer 1: Collection (bottom) -->
+      <rect x="40" y="260" width="600" height="60" rx="8" fill="#3b82f6"/>
+      <text x="340" y="287" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" font-weight="700" fill="white">LAYER 1: DATA COLLECTION</text>
+      <text x="340" y="304" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#bfdbfe">Forms · Events · Intent Signals · Web Behavior · Ad APIs</text>
+
+      <!-- label -->
+      <text x="18" y="200" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="700" fill="#94a3b8" transform="rotate(-90,18,200)">DOWNSTREAM ↑ DATA FLOWS ↑ UPSTREAM</text>
+    </svg>
+    <div class="graphic-caption">AI reads and writes across all four layers. If any layer has a field ownership conflict, AI will propagate the conflict — not resolve it.</div>
+  </div>
+
+  <p class="body-copy">
+    The thing that trips most teams up is layer two — integrations. Everyone knows what tools they have. Fewer people have documented what fields flow between them, in which direction, at what frequency, and what happens when there's a conflict. That documentation is the data contract, and without it you're trusting that everything is syncing correctly. Usually it isn't, and usually no one finds out until something downstream looks wrong.
+  </p>
+
+  <div class="callout orange">
+    <span class="callout-icon">📍</span>
+    <div class="callout-body"><strong>Architecture check:</strong> Can you trace the path from a form fill to a closed-won opportunity in a single diagram — including which system owns each field at each stage? If that diagram doesn't exist, your data architecture is undocumented. AI will fill the gaps with assumptions.</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ─────────────── Section 3: Governance ─────────────── -->
+  <h2 class="section-heading">03. Governance: the human layer AI cannot replace</h2>
+
+  <p class="body-copy">
+    Governance is the word that makes people's eyes glaze over in meetings. I get it. But governance is just the answer to: when something goes wrong, who is accountable, and what do we do about it?
+  </p>
+
+  <p class="body-copy">
+    AI tools are increasingly making decisions without human review — routing leads, suppressing contacts, scoring accounts, recommending budget shifts. Each of those decisions has a downstream business consequence. And if there is no governance framework, those consequences are invisible until they're already a problem.
+  </p>
+
+  <!-- GRAPHIC 3: Governance Tiers -->
+  <div class="graphic-wrap">
+    <div class="graphic-label">Graphic 03 — Three governance tiers, each with a different cadence and scope</div>
+    <svg viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg" width="100%" style="padding:28px 24px 20px;">
+      <!-- Strategic -->
+      <rect x="40" y="20" width="186" height="140" rx="10" fill="#0f1117" stroke="#0f1117"/>
+      <text x="133" y="50" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="700" fill="white">STRATEGIC</text>
+      <text x="133" y="68" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#94a3b8">Quarterly</text>
+      <line x1="70" y1="78" x2="196" y2="78" stroke="#374151" stroke-width="1"/>
+      <text x="133" y="96" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#e5e7eb">CMO · VP Sales · RevOps</text>
+      <text x="133" y="115" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ca3af">Lifecycle definitions</text>
+      <text x="133" y="131" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ca3af">KPI frameworks</text>
+      <text x="133" y="147" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ca3af">Attribution model</text>
+
+      <!-- Operational -->
+      <rect x="247" y="20" width="186" height="140" rx="10" fill="#1e3a5f" stroke="#1e3a5f"/>
+      <text x="340" y="50" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="700" fill="white">OPERATIONAL</text>
+      <text x="340" y="68" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#93c5fd">Monthly</text>
+      <line x1="277" y1="78" x2="403" y2="78" stroke="#2563eb" stroke-width="1"/>
+      <text x="340" y="96" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#e5e7eb">Mktg Ops · Sales Ops</text>
+      <text x="340" y="115" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#93c5fd">Routing rules</text>
+      <text x="340" y="131" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#93c5fd">Scoring thresholds</text>
+      <text x="340" y="147" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#93c5fd">Data quality SLAs</text>
+
+      <!-- Tactical -->
+      <rect x="454" y="20" width="186" height="140" rx="10" fill="#164e63" stroke="#164e63"/>
+      <text x="547" y="50" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="700" fill="white">TACTICAL</text>
+      <text x="547" y="68" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#67e8f9">Weekly</text>
+      <line x1="484" y1="78" x2="610" y2="78" stroke="#0891b2" stroke-width="1"/>
+      <text x="547" y="96" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#e5e7eb">Ops Analyst · CRM Admin</text>
+      <text x="547" y="115" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#67e8f9">Data cleanup</text>
+      <text x="547" y="131" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#67e8f9">Integration monitoring</text>
+      <text x="547" y="147" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#67e8f9">Anomaly triage</text>
+
+      <!-- bottom label -->
+      <text x="340" y="196" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#6b7280">Governance is not a committee. It is clarity about who decides what, at which frequency.</text>
+    </svg>
+    <div class="graphic-caption">Each tier handles different decisions. The mistake is trying to route everything through strategic — or letting tactical decisions go ungoverned.</div>
+  </div>
+
+  <p class="body-copy">
+    Here's the test I use: if something goes wrong — leads routed incorrectly, the pipeline number is challenged, a campaign suppresses the wrong contacts — can you trace it back to a specific rule, a specific decision, and a specific owner within 30 minutes? If yes, you have governance. If not, you have hope.
+  </p>
+
+  <p class="body-copy">
+    The five domains where governance matters most for Marketing Ops are: definition ownership (who decides what an MQL means), data ownership (who is accountable for data accuracy by domain), process ownership (who approves lifecycle changes), access control (who can modify routing rules or scoring models in production), and reporting authority (which dashboards are official and who certifies them).
+  </p>
+
+  <div class="callout blue">
+    <span class="callout-icon">⚖️</span>
+    <div class="callout-body"><strong>AI amplifies the governance gap:</strong> Every AI-triggered action should write an audit field — what happened, when, which model triggered it, what the input state was. If your AI tools can't answer that, they're operating without governance.</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ─────────────── Section 4: Revenue Mechanics ─────────────── -->
+  <h2 class="section-heading">04. Revenue mechanics: connecting your work to money</h2>
+
+  <p class="body-copy">
+    This is the part most Marketing Ops teams are closest to getting right, and also the part that tends to fall apart most visibly in front of senior leadership.
+  </p>
+
+  <p class="body-copy">
+    Revenue mechanics is the operational logic that translates what marketing does into business outcomes. It's the answer to: how do we know this investment generated that pipeline? Three things have to work for this to hold up — attribution, pipeline coverage, and funnel velocity.
+  </p>
+
+  <h3 class="sub-heading">Attribution</h3>
+  <p class="body-copy">
+    There is no universally correct attribution model. There is only the model that is defined, agreed upon, and consistently applied. First touch, last touch, U-shaped, data-driven — they each measure something real, and they each have trade-offs. The problem isn't choosing the wrong model. It's having no agreed model at all, so marketing and finance report different pipeline numbers and neither one is technically wrong.
+  </p>
+
+  <h3 class="sub-heading">Pipeline coverage</h3>
+  <p class="body-copy">
+    Pipeline coverage is the ratio of pipeline value to revenue target. A 3x coverage ratio means three dollars of pipeline for every dollar of target. This sounds simple. It's not, because the most common version of the problem isn't that you don't have enough pipeline — it's that you have pipeline you can't see because leads were never worked.
+  </p>
+  <p class="body-copy">
+    In the data I've worked with, 63% of leads went un-worked despite 41,000+ leads generated in a period. Those don't show up as pipeline. They show up as a generation problem when the real problem is a follow-up gap. AI can surface that distinction — but only if your stages are clean and your lead activity data is reliable.
+  </p>
+
+  <!-- GRAPHIC 4: Revenue Bridge -->
+  <div class="graphic-wrap">
+    <div class="graphic-label">Graphic 04 — The revenue bridge: tracing leads to closed revenue</div>
+    <svg viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg" width="100%" style="padding:28px 24px 20px;">
+      <defs>
+        <marker id="arr3" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <polygon points="0 0, 7 2.5, 0 5" fill="#94a3b8"/>
+        </marker>
+      </defs>
+      <!-- bars going left to right, decreasing height -->
+      <!-- bar data: x, barW=80, h, y (bottom=260), label, value, rate -->
+      <!-- Leads 41000 full height 200 -->
+      <rect x="30" y="60" width="76" height="200" rx="5" fill="#3b82f6" opacity="0.85"/>
+      <text x="68" y="52" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#0f1117">41,000</text>
+      <text x="68" y="272" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">Leads</text>
+
+      <line x1="106" y1="160" x2="118" y2="160" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr3)" stroke-dasharray="3,2"/>
+
+      <!-- MQL 9020 → h=44 -->
+      <rect x="120" y="216" width="76" height="44" rx="5" fill="#2563eb" opacity="0.85"/>
+      <text x="158" y="208" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#0f1117">~9,020</text>
+      <text x="158" y="272" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">MQL (22%)</text>
+
+      <line x1="196" y1="238" x2="208" y2="238" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr3)" stroke-dasharray="3,2"/>
+
+      <!-- SAL 4960 → h=24 -->
+      <rect x="210" y="236" width="76" height="24" rx="5" fill="#1d4ed8" opacity="0.85"/>
+      <text x="248" y="228" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#0f1117">~4,960</text>
+      <text x="248" y="272" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">SAL (55%)</text>
+
+      <line x1="286" y1="248" x2="298" y2="248" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr3)" stroke-dasharray="3,2"/>
+
+      <!-- SQO 1984 → h=10 -->
+      <rect x="300" y="250" width="76" height="10" rx="5" fill="#1e40af" opacity="0.9"/>
+      <text x="338" y="242" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#0f1117">~1,984</text>
+      <text x="338" y="272" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">SQO (40%)</text>
+
+      <line x1="376" y1="255" x2="388" y2="255" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr3)" stroke-dasharray="3,2"/>
+
+      <!-- Closed Won 556 → h=5 -->
+      <rect x="390" y="255" width="76" height="5" rx="4" fill="#065f46" opacity="0.9"/>
+      <text x="428" y="247" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#0f1117">~556</text>
+      <text x="428" y="272" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6b7280">Won (28%)</text>
+
+      <!-- revenue output -->
+      <rect x="500" y="210" width="152" height="50" rx="8" fill="#d1fae5" stroke="#a7f3d0" stroke-width="1.5"/>
+      <text x="576" y="232" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="700" fill="#065f46">$12.2M</text>
+      <text x="576" y="250" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#059669">Closed Revenue</text>
+
+      <line x1="466" y1="257" x2="498" y2="237" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+      <!-- baseline -->
+      <line x1="20" y1="260" x2="660" y2="260" stroke="#e5e7eb" stroke-width="1"/>
+    </svg>
+    <div class="graphic-caption">The revenue bridge makes every conversion loss visible. Each rate is a lever. If any rate is unknown or disputed, the bridge breaks — and AI optimization has nothing reliable to run against.</div>
+  </div>
+
+  <h3 class="sub-heading">Funnel velocity</h3>
+  <p class="body-copy">
+    Velocity is how fast deals move through the pipeline. The formula is: number of opportunities × win rate × average deal value ÷ sales cycle length. Marketing influences three of those four inputs. AI can model velocity scenarios and flag when velocity is degrading — but only if the stage timestamps in your CRM are accurate and complete.
+  </p>
+
+  <div class="callout green">
+    <span class="callout-icon">💰</span>
+    <div class="callout-body"><strong>The revenue mechanics test:</strong> Can you walk a CFO from a campaign investment to its contribution to closed revenue — with a clear model, agreed rates, and traceable data — in under ten minutes? If the data isn't there to support that walk, AI won't get you there. Better fundamentals will.</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ─────────────── Section 5: The Maturity Question ─────────────── -->
+  <h2 class="section-heading">05. Where does your operation stand?</h2>
+
+  <p class="body-copy">
+    Before deploying any AI tool, it's worth doing an honest assessment across these four areas. Most operations have pockets of strength and pockets of technical debt sitting side by side. The goal isn't to be perfect before starting — it's to know what you're actually building on.
+  </p>
+
+  <table class="maturity-table">
+    <thead>
+      <tr>
+        <th style="width:18%">Pillar</th>
+        <th style="width:27%"><span class="level-tag level-1">Level 1</span> Reactive</th>
+        <th style="width:27%"><span class="level-tag level-2">Level 2</span> Defined</th>
+        <th style="width:28%"><span class="level-tag level-3">Level 3</span> AI-Ready</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Process</td>
+        <td>Lifecycle stages undefined. MQL meaning disputed across teams.</td>
+        <td>Stages documented. Entry/exit conditions written. Sales signed off.</td>
+        <td>AI monitors velocity, flags SLA violations, automates routing.</td>
+      </tr>
+      <tr>
+        <td>Data Architecture</td>
+        <td>Data scattered. No clear system of record. CRM reliability low.</td>
+        <td>CRM is system of record. Integrations mapped. Field ownership defined.</td>
+        <td>AI enriches and validates. Data quality issues surface in real time.</td>
+      </tr>
+      <tr>
+        <td>Governance</td>
+        <td>No defined owners. Definitions shift informally. No audit trail.</td>
+        <td>Decision owners per domain. Change protocol documented. Cadences running.</td>
+        <td>AI actions are traceable. Governance reviews model performance quarterly.</td>
+      </tr>
+      <tr>
+        <td>Revenue Mechanics</td>
+        <td>Attribution informal. Coverage undefined. Velocity not tracked.</td>
+        <td>Attribution model agreed. Coverage tracked by source. Velocity by segment.</td>
+        <td>AI models pipeline scenarios and surfaces conversion anomalies.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="body-copy">
+    Most B2B Marketing Ops teams are somewhere between Level 1 and Level 2 on at least one pillar. That's fine. The point is to know which one, build a plan for it, and not layer AI on top of it before the foundation is ready.
+  </p>
+
+  <hr class="divider">
+
+  <!-- ─────────────── Closing ─────────────── -->
+  <div class="closing">
+    <p>
+      The conversation I keep coming back to is this: Marketing Ops is not moving toward obsolescence because of AI. It's moving toward higher leverage. The work is shifting from building the workflow to designing the system the workflow runs on. That is genuinely more interesting work — and it requires a different kind of thinking.
+    </p>
+    <p>
+      Not "can we automate this step?" but "is this step clean enough to be automated correctly?" Not "what tool should we buy?" but "what does our data need to look like before this tool can do anything useful?"
+    </p>
+    <p>
+      The teams that answer those questions first are the ones that will actually get the leverage everyone else is just claiming.
+    </p>
+
+    <div class="compare-grid" style="margin-top:40px;">
+      <div class="compare-card bad">
+        <div class="card-label">Weak Marketing Ops gets exposed</div>
+        <ul>
+          <li>AI scores leads into a broken MQL definition</li>
+          <li>Enrichment scales messy contact data</li>
+          <li>Attribution model generates confident wrong answers</li>
+          <li>Routing logic breaks faster</li>
+        </ul>
+      </div>
+      <div class="compare-card good">
+        <div class="card-label">Strong Marketing Ops gets multiplied</div>
+        <ul>
+          <li>AI speeds up reporting across 16 segments</li>
+          <li>Scoring improves with clean enrichment inputs</li>
+          <li>QA automation catches data drift early</li>
+          <li>Analysts move to strategic work</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="tag-line">"I follow the funnel until I find where the money stops moving."</p>
+    <p style="font-size:14px; color:#6b7280; margin-top:8px;">That's still the job. AI just helps you get there faster — if the foundation holds.</p>
+  </div>
+
+</div>
+</body>
+</html>
