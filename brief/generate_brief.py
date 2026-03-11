@@ -230,24 +230,19 @@ def generate_html(briefs, generated_at):
         cat_nav += f'<button class="cat-btn" data-category="{cat}">{cat} <span class="cat-count">{count}</span></button>\n'
 
     EMPTY_STATE_HTML = '<div class="empty-state"><h2>Brewing the brief...</h2><p>Check back at 7:00 AM ET for today\'s stories.</p></div>'
-ga4_snippet = """<!-- Google Analytics (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FMJ1MNNRLQ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-FMJ1MNNRLQ');
-    </script>"""
-```
 
-Then find this line inside the HTML template:
-```
-    <meta property="og:type" content="website">
-```
+    ga4_id = "G-FMJ1MNNRLQ"
+    ga4_snippet = (
+        '<!-- Google Analytics (GA4) -->\n'
+        '    <script async src="https://www.googletagmanager.com/gtag/js?id=' + ga4_id + '"></script>\n'
+        '    <script>\n'
+        '      window.dataLayer = window.dataLayer || [];\n'
+        '      function gtag(){dataLayer.push(arguments);}\n'
+        "      gtag('js', new Date());\n"
+        "      gtag('config', '" + ga4_id + "');\n"
+        '    </script>'
+    )
 
-Right **after** that line, add:
-```
-    {ga4_snippet}
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -258,6 +253,7 @@ Right **after** that line, add:
     <meta property="og:title" content="The AI Marketing Brief | {date_display}">
     <meta property="og:description" content="20 curated AI + Marketing stories you need to know today.">
     <meta property="og:type" content="website">
+    {ga4_snippet}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
