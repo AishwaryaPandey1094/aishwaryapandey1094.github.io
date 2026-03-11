@@ -64,9 +64,6 @@ TARGET_ARTICLES = 20
 LOOKBACK_HOURS = 72  # Cast a wider net, then rank by relevance
 MAX_ARTICLES_TO_SEND = 40  # Send top candidates to Claude for TLDR
 
-# Analytics — set via environment variable or GitHub secret
-GA_MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID", "")
-
 
 def fetch_all_feeds():
     """Fetch and parse all RSS feeds, return list of article dicts."""
@@ -232,6 +229,8 @@ def generate_html(briefs, generated_at):
     for cat, count in sorted(cat_counts.items(), key=lambda x: -x[1]):
         cat_nav += f'<button class="cat-btn" data-category="{cat}">{cat} <span class="cat-count">{count}</span></button>\n'
 
+    EMPTY_STATE_HTML = '<div class="empty-state"><h2>Brewing the brief...</h2><p>Check back at 7:00 AM ET for today\'s stories.</p></div>'
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -242,14 +241,6 @@ def generate_html(briefs, generated_at):
     <meta property="og:title" content="The AI Marketing Brief | {date_display}">
     <meta property="og:description" content="20 curated AI + Marketing stories you need to know today.">
     <meta property="og:type" content="website">
-    {f"""<!-- Google Analytics (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){{dataLayer.push(arguments);}}
-      gtag('js', new Date());
-      gtag('config', '{GA_MEASUREMENT_ID}');
-    </script>""" if GA_MEASUREMENT_ID else "<!-- GA4: Set GA_MEASUREMENT_ID env var to enable analytics -->"}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -279,7 +270,6 @@ def generate_html(briefs, generated_at):
             -webkit-font-smoothing: antialiased;
         }}
 
-        /* ── Masthead ─────────────────────────── */
         .masthead {{
             border-bottom: 3px double var(--ink);
             padding: 2rem 0 1.5rem;
@@ -333,7 +323,6 @@ def generate_html(briefs, generated_at):
             letter-spacing: 0.08em;
         }}
 
-        /* ── Category Nav ─────────────────────── */
         .category-nav {{
             max-width: 900px;
             margin: 0 auto;
@@ -377,7 +366,6 @@ def generate_html(briefs, generated_at):
             color: var(--ink);
         }}
 
-        /* ── Main Content ─────────────────────── */
         .content {{
             max-width: 900px;
             margin: 0 auto;
@@ -394,7 +382,6 @@ def generate_html(briefs, generated_at):
             padding-bottom: 0.5rem;
         }}
 
-        /* ── Article Cards ────────────────────── */
         .brief-card {{
             background: var(--card-bg);
             border: 1px solid var(--border-light);
@@ -514,7 +501,6 @@ def generate_html(briefs, generated_at):
             opacity: 0.7;
         }}
 
-        /* ── Footer ───────────────────────────── */
         .site-footer {{
             border-top: 3px double var(--ink);
             padding: 2rem 0;
@@ -545,7 +531,6 @@ def generate_html(briefs, generated_at):
             text-decoration: none;
         }}
 
-        /* ── Loading state ────────────────────── */
         .empty-state {{
             text-align: center;
             padding: 4rem 2rem;
@@ -560,7 +545,6 @@ def generate_html(briefs, generated_at):
             color: var(--ink);
         }}
 
-        /* ── Responsive ───────────────────────── */
         @media (max-width: 640px) {{
             .masthead-meta {{
                 flex-direction: column;
@@ -603,7 +587,7 @@ def generate_html(briefs, generated_at):
     <main class="content">
         <p class="brief-count" id="showing-count">Showing {len(briefs)} of {len(briefs)} stories</p>
         <div class="briefs-container">
-            {cards_html if cards_html else '<div class="empty-state"><h2>Brewing today\'s brief...</h2><p>Check back at 7:00 AM ET for today\'s stories.</p></div>'}
+            {cards_html if cards_html else EMPTY_STATE_HTML}
         </div>
     </main>
 
@@ -701,9 +685,6 @@ def main():
 
     # Step 4: Generate HTML
     print("\n[4/4] Generating HTML...")
-    from datetime import timezone as tz
-    # Use Eastern Time for display
-    import subprocess
     generated_at = datetime.now(timezone.utc)
     # Adjust to ET (UTC-5 or UTC-4 depending on DST)
     et_offset = timedelta(hours=-4)  # EDT
