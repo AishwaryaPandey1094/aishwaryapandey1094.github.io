@@ -231,7 +231,7 @@ def generate_html(briefs, generated_at):
 
     EMPTY_STATE_HTML = '<div class="empty-state"><h2>Brewing the brief...</h2><p>Check back at 7:00 AM ET for today\'s stories.</p></div>'
 
-    ga4_id = "G-FMJ1MNNRLQ"
+    ga4_id = "G-50E3KW10RP"
     ga4_snippet = (
         '<!-- Google Analytics (GA4) -->\n'
         '    <script async src="https://www.googletagmanager.com/gtag/js?id=' + ga4_id + '"></script>\n'
