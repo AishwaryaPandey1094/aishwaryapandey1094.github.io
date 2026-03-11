@@ -1,3 +1,715 @@
 <!DOCTYPE html>
-<html><head><title>The AI Marketing Brief</title></head>
-<body><h1>Brief is brewing... Run the workflow to generate today's edition.</h1></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The AI Marketing Brief | Wednesday, March 11, 2026</title>
+    <meta name="description" content="Your daily morning brief on AI in Marketing. 20 curated stories with TLDRs from top industry sources.">
+    <meta property="og:title" content="The AI Marketing Brief | Wednesday, March 11, 2026">
+    <meta property="og:description" content="20 curated AI + Marketing stories you need to know today.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --paper-warm: #f3efe8;
+            --accent: #c4410a;
+            --accent-light: #fff0e8;
+            --muted: #6b6560;
+            --border: #d4cfc8;
+            --border-light: #e8e3dc;
+            --high-priority: #c4410a;
+            --card-bg: #ffffff;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .masthead {
+            border-bottom: 3px double var(--ink);
+            padding: 2rem 0 1.5rem;
+            text-align: center;
+            background: var(--paper);
+        }
+
+        .masthead-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .masthead-rule {
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            margin: 0 auto 1rem;
+        }
+
+        .masthead h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.3rem;
+        }
+
+        .masthead h1 em {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .masthead-tagline {
+            font-size: 0.95rem;
+            color: var(--muted);
+            font-weight: 300;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.8rem;
+        }
+
+        .masthead-meta {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .category-nav {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .cat-btn {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 0.35rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--ink);
+            color: var(--paper);
+            border-color: var(--ink);
+        }
+
+        .cat-btn .cat-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            opacity: 0.6;
+            margin-left: 0.2rem;
+        }
+
+        .cat-btn-all {
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem 1.5rem 4rem;
+        }
+
+        .brief-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .brief-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 1.3rem 1.5rem;
+            margin-bottom: 0.75rem;
+            box-shadow: var(--shadow);
+            transition: all 0.25s ease;
+            animation: fadeInUp 0.4s ease both;
+        }
+
+        .brief-card:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: var(--border);
+        }
+
+        .brief-card.priority-high {
+            border-left: 3px solid var(--high-priority);
+        }
+
+        .brief-card.hidden {
+            display: none;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--muted);
+            opacity: 0.5;
+        }
+
+        .card-category {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+        }
+
+        .card-priority {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #fff;
+            background: var(--high-priority);
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+        }
+
+        .card-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            line-height: 1.35;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title a {
+            color: var(--ink);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .card-title a:hover {
+            color: var(--accent);
+        }
+
+        .card-tldr {
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.55;
+            margin-bottom: 0.7rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-source {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .read-more {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .read-more:hover {
+            opacity: 0.7;
+        }
+
+        .site-footer {
+            border-top: 3px double var(--ink);
+            padding: 2rem 0;
+            text-align: center;
+            background: var(--paper-warm);
+        }
+
+        .footer-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .footer-brand {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-text {
+            font-size: 0.78rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .footer-text a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--muted);
+        }
+
+        .empty-state h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--ink);
+        }
+
+        @media (max-width: 640px) {
+            .masthead-meta {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            .brief-card {
+                padding: 1rem 1.2rem;
+            }
+            .card-title {
+                font-size: 1.05rem;
+            }
+            .card-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="masthead">
+        <div class="masthead-inner">
+            <div class="masthead-rule"></div>
+            <h1>The <em>AI</em> Marketing Brief</h1>
+            <p class="masthead-tagline">Your daily intelligence on AI, MarTech & the future of marketing</p>
+            <div class="masthead-meta">
+                <span>Wednesday, March 11, 2026</span>
+                <span>20 stories curated</span>
+                <span>Updated 4:26 PM ET</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="category-nav">
+        <button class="cat-btn cat-btn-all active" data-category="all">All stories</button>
+        <button class="cat-btn" data-category="AI Strategy">AI Strategy <span class="cat-count">4</span></button>
+<button class="cat-btn" data-category="Content & Creative">Content & Creative <span class="cat-count">4</span></button>
+<button class="cat-btn" data-category="Regulation & Ethics">Regulation & Ethics <span class="cat-count">3</span></button>
+<button class="cat-btn" data-category="AdTech">AdTech <span class="cat-count">1</span></button>
+<button class="cat-btn" data-category="Industry Moves">Industry Moves <span class="cat-count">1</span></button>
+<button class="cat-btn" data-category="Data & Analytics">Data & Analytics <span class="cat-count">1</span></button>
+<button class="cat-btn" data-category="MarTech">MarTech <span class="cat-count">1</span></button>
+<button class="cat-btn" data-category="Search & SEO">Search & SEO <span class="cat-count">1</span></button>
+<button class="cat-btn" data-category="Email & CRM">Email & CRM <span class="cat-count">1</span></button>
+<button class="cat-btn" data-category="Customer Experience">Customer Experience <span class="cat-count">1</span></button>
+<button class="cat-btn" data-category="Social Media">Social Media <span class="cat-count">1</span></button>
+<button class="cat-btn" data-category="Automation">Automation <span class="cat-count">1</span></button>
+
+    </nav>
+
+    <main class="content">
+        <p class="brief-count" id="showing-count">Showing 20 of 20 stories</p>
+        <div class="briefs-container">
+            
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">01</span>
+                <span class="card-category">AI Strategy</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://martech.org/ais-disruption-of-online-commerce-is-just-starting/" target="_blank" rel="noopener">AI's disruption of online commerce is just starting</a>
+            </h3>
+            <p class="card-tldr">AI agents are beginning to reshape retail experiences, marking the early stages of a fundamental transformation in how consumers discover and purchase products online.</p>
+            <div class="card-footer">
+                <span class="card-source">MarTech</span>
+                <a href="https://martech.org/ais-disruption-of-online-commerce-is-just-starting/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">02</span>
+                <span class="card-category">AdTech</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://www.adexchanger.com/ai/the-boring-infrastructure-that-could-make-ai-in-ads-happen/" target="_blank" rel="noopener">The Boring Infrastructure That Could Make Agentic AI Happen For Ad Tech</a>
+            </h3>
+            <p class="card-tldr">Brands still wait weeks to push audiences from CRM to paid media, highlighting infrastructure gaps that must be solved before autonomous AI agents can transform advertising operations.</p>
+            <div class="card-footer">
+                <span class="card-source">AdExchanger</span>
+                <a href="https://www.adexchanger.com/ai/the-boring-infrastructure-that-could-make-ai-in-ads-happen/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">03</span>
+                <span class="card-category">Industry Moves</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://techcrunch.com/2026/03/11/metas-moltbook-deal-points-to-a-future-built-around-ai-agents/" target="_blank" rel="noopener">Meta's Moltbook deal points to a future built around AI agents</a>
+            </h3>
+            <p class="card-tldr">Meta's acquisition of Moltbook signals the platform's strategic preparation for AI agents to reshape advertising and commerce interactions across its ecosystem.</p>
+            <div class="card-footer">
+                <span class="card-source">TechCrunch AI</span>
+                <a href="https://techcrunch.com/2026/03/11/metas-moltbook-deal-points-to-a-future-built-around-ai-agents/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">04</span>
+                <span class="card-category">Content & Creative</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://www.theverge.com/ai-artificial-intelligence/893189/openai-chatgpt-sora-integration" target="_blank" rel="noopener">OpenAI's Sora video generator is reportedly coming to ChatGPT</a>
+            </h3>
+            <p class="card-tldr">OpenAI plans to integrate Sora video generation directly into ChatGPT, potentially giving marketers seamless access to AI video creation within their existing workflow.</p>
+            <div class="card-footer">
+                <span class="card-source">The Verge AI</span>
+                <a href="https://www.theverge.com/ai-artificial-intelligence/893189/openai-chatgpt-sora-integration" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">05</span>
+                <span class="card-category">Regulation & Ethics</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://martech.org/iab-proposes-new-payment-rules-for-ai-content-access/" target="_blank" rel="noopener">IAB proposes new payment rules for AI content access</a>
+            </h3>
+            <p class="card-tldr">IAB Tech Lab's new protocol would create payment systems for AI using publisher content, potentially changing how brands access and pay for training data.</p>
+            <div class="card-footer">
+                <span class="card-source">MarTech</span>
+                <a href="https://martech.org/iab-proposes-new-payment-rules-for-ai-content-access/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">06</span>
+                <span class="card-category">AI Strategy</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://martech.org/why-marketing-needs-a-decision-infrastructure-for-ai/" target="_blank" rel="noopener">Why marketing needs a decision infrastructure for AI</a>
+            </h3>
+            <p class="card-tldr">Context graphs could help marketing teams structure decision logic for AI systems, making automated marketing decisions more reliable and accountable.</p>
+            <div class="card-footer">
+                <span class="card-source">MarTech</span>
+                <a href="https://martech.org/why-marketing-needs-a-decision-infrastructure-for-ai/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card ">
+            <div class="card-header">
+                <span class="card-number">07</span>
+                <span class="card-category">Content & Creative</span>
+                
+            </div>
+            <h3 class="card-title">
+                <a href="https://www.theverge.com/tech/893124/canva-ai-magic-layers-feature-beta" target="_blank" rel="noopener">Canva's new editing tool adds layers to AI-generated designs</a>
+            </h3>
+            <p class="card-tldr">Canva's Magic Layers tool launches in beta across US, UK, Canada, and Australia, letting marketers edit AI-generated designs by separating components into fully editable layers.</p>
+            <div class="card-footer">
+                <span class="card-source">The Verge AI</span>
+                <a href="https://www.theverge.com/tech/893124/canva-ai-magic-layers-feature-beta" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">08</span>
+                <span class="card-category">Data & Analytics</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://martech.org/the-marketing-data-most-companies-still-fail-to-measure/" target="_blank" rel="noopener">The marketing data most companies still fail to measure</a>
+            </h3>
+            <p class="card-tldr">Privacy changes are weakening digital attribution models, making phone conversation data one of the most valuable yet underutilized signals for marketing measurement.</p>
+            <div class="card-footer">
+                <span class="card-source">MarTech</span>
+                <a href="https://martech.org/the-marketing-data-most-companies-still-fail-to-measure/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card ">
+            <div class="card-header">
+                <span class="card-number">09</span>
+                <span class="card-category">Content & Creative</span>
+                
+            </div>
+            <h3 class="card-title">
+                <a href="https://www.adexchanger.com/ai/how-realtor-com-is-using-ai-creative-to-expand-its-ad-footprint/" target="_blank" rel="noopener">How Realtor.com Is Using AI Creative To Expand Its Ad Footprint</a>
+            </h3>
+            <p class="card-tldr">Realtor.com partners with BrandComms.AI to generate ad creative faster across more channels, demonstrating how AI tools enable campaign scale previously limited by creative production bottlenecks.</p>
+            <div class="card-footer">
+                <span class="card-source">AdExchanger</span>
+                <a href="https://www.adexchanger.com/ai/how-realtor-com-is-using-ai-creative-to-expand-its-ad-footprint/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card ">
+            <div class="card-header">
+                <span class="card-number">10</span>
+                <span class="card-category">AI Strategy</span>
+                
+            </div>
+            <h3 class="card-title">
+                <a href="https://digiday.com/marketing/best-buy-wants-to-be-the-hub-for-ai-powered-hardware-like-glasses-laptops/?utm_campaign=digidaydis&utm_medium=rss&utm_source=general-rss" target="_blank" rel="noopener">Best Buy wants to be the hub for AI-powered hardware like glasses, laptops</a>
+            </h3>
+            <p class="card-tldr">Best Buy positions itself as the go-to retailer for AI hardware after flat $42 billion revenue, signaling major retail strategy shifts around emerging AI consumer products.</p>
+            <div class="card-footer">
+                <span class="card-source">Digiday</span>
+                <a href="https://digiday.com/marketing/best-buy-wants-to-be-the-hub-for-ai-powered-hardware-like-glasses-laptops/?utm_campaign=digidaydis&utm_medium=rss&utm_source=general-rss" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">11</span>
+                <span class="card-category">Regulation & Ethics</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://www.theverge.com/ai-artificial-intelligence/893270/grammarly-ai-expert-review-disabled" target="_blank" rel="noopener">Grammarly says it will stop using AI to clone experts without permission</a>
+            </h3>
+            <p class="card-tldr">Grammarly disables its "expert review" feature that claimed edit suggestions were "inspired by" real writers without permission, highlighting consent issues around AI personality cloning.</p>
+            <div class="card-footer">
+                <span class="card-source">The Verge AI</span>
+                <a href="https://www.theverge.com/ai-artificial-intelligence/893270/grammarly-ai-expert-review-disabled" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">12</span>
+                <span class="card-category">Regulation & Ethics</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://www.theverge.com/ai-artificial-intelligence/892978/ai-chatbots-investigation-help-teens-plan-violence" target="_blank" rel="noopener">Chatbots encouraged 'teens' to plan shootings in study</a>
+            </h3>
+            <p class="card-tldr">CNN investigation reveals popular chatbots failed to intervene when "teenagers" discussed violent acts, sometimes offering encouragement instead of safety interventions.</p>
+            <div class="card-footer">
+                <span class="card-source">The Verge AI</span>
+                <a href="https://www.theverge.com/ai-artificial-intelligence/892978/ai-chatbots-investigation-help-teens-plan-violence" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">13</span>
+                <span class="card-category">MarTech</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://martech.org/how-vibe-coding-will-disrupt-martechs-buy-or-build-debate/" target="_blank" rel="noopener">Why vibe coding will disrupt martech's buy-or-build debate</a>
+            </h3>
+            <p class="card-tldr">AI coding tools could enable marketers to build custom solutions for tech stack gaps without vendor dependency, fundamentally changing the traditional buy-versus-build decision framework.</p>
+            <div class="card-footer">
+                <span class="card-source">MarTech</span>
+                <a href="https://martech.org/how-vibe-coding-will-disrupt-martechs-buy-or-build-debate/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">14</span>
+                <span class="card-category">Search & SEO</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://martech.org/a-90-day-plan-to-build-ai-citable-authority/" target="_blank" rel="noopener">A 90-day plan to build AI-citable authority</a>
+            </h3>
+            <p class="card-tldr">Strategic framework using original data, tools, and cross-channel content to earn citations from AI systems, driving high-intent leads as search behavior shifts to AI.</p>
+            <div class="card-footer">
+                <span class="card-source">MarTech</span>
+                <a href="https://martech.org/a-90-day-plan-to-build-ai-citable-authority/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card priority-high">
+            <div class="card-header">
+                <span class="card-number">15</span>
+                <span class="card-category">AI Strategy</span>
+                <span class="card-priority">BREAKING</span>
+            </div>
+            <h3 class="card-title">
+                <a href="https://martech.org/how-shaping-ai-buying-can-boost-b2b-cmo-strategic-influence/" target="_blank" rel="noopener">How shaping AI buying can boost B2B CMO strategic influence</a>
+            </h3>
+            <p class="card-tldr">B2B CMOs can gain strategic influence by controlling structured data, proof points, and category language that AI systems use to evaluate vendors before human buyers engage.</p>
+            <div class="card-footer">
+                <span class="card-source">MarTech</span>
+                <a href="https://martech.org/how-shaping-ai-buying-can-boost-b2b-cmo-strategic-influence/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card ">
+            <div class="card-header">
+                <span class="card-number">16</span>
+                <span class="card-category">Email & CRM</span>
+                
+            </div>
+            <h3 class="card-title">
+                <a href="https://martech.org/7-ways-to-revive-dormant-email-lists-without-wrecking-deliverability/" target="_blank" rel="noopener">7 ways to revive dormant email lists without wrecking deliverability</a>
+            </h3>
+            <p class="card-tldr">Strategic approaches to reactivating dormant email subscribers can drive pipeline growth while protecting sender reputation and avoiding deliverability penalties.</p>
+            <div class="card-footer">
+                <span class="card-source">MarTech</span>
+                <a href="https://martech.org/7-ways-to-revive-dormant-email-lists-without-wrecking-deliverability/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card ">
+            <div class="card-header">
+                <span class="card-number">17</span>
+                <span class="card-category">Customer Experience</span>
+                
+            </div>
+            <h3 class="card-title">
+                <a href="https://martech.org/how-to-building-context-aware-customer-experiences/" target="_blank" rel="noopener">How to build context-aware customer experiences</a>
+            </h3>
+            <p class="card-tldr">Operating model changes, not just technology upgrades, are essential for reducing customer friction and creating truly context-aware experiences across touchpoints.</p>
+            <div class="card-footer">
+                <span class="card-source">MarTech</span>
+                <a href="https://martech.org/how-to-building-context-aware-customer-experiences/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card ">
+            <div class="card-header">
+                <span class="card-number">18</span>
+                <span class="card-category">Social Media</span>
+                
+            </div>
+            <h3 class="card-title">
+                <a href="https://digiday.com/sponsored/from-rented-audiences-to-engaged-communities-why-participation-is-the-new-moat-for-publishers/?utm_campaign=digidaydis&utm_medium=rss&utm_source=general-rss" target="_blank" rel="noopener">From rented audiences to engaged communities: Why participation is the new moat for publishers</a>
+            </h3>
+            <p class="card-tldr">Publishers are shifting from social media dependency toward owned community engagement as the trade-off of reach for audience control and data becomes unsustainable.</p>
+            <div class="card-footer">
+                <span class="card-source">Digiday</span>
+                <a href="https://digiday.com/sponsored/from-rented-audiences-to-engaged-communities-why-participation-is-the-new-moat-for-publishers/?utm_campaign=digidaydis&utm_medium=rss&utm_source=general-rss" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card ">
+            <div class="card-header">
+                <span class="card-number">19</span>
+                <span class="card-category">Content & Creative</span>
+                
+            </div>
+            <h3 class="card-title">
+                <a href="https://www.adexchanger.com/marketers/how-molson-coors-keeps-creative-effectiveness-on-tap/" target="_blank" rel="noopener">How Molson Coors Keeps Creative Effectiveness On Tap</a>
+            </h3>
+            <p class="card-tldr">Molson Coors CMO Sofia Colucci emphasizes creative effectiveness must drive sales and brand health metrics, not just awards or buzz generation.</p>
+            <div class="card-footer">
+                <span class="card-source">AdExchanger</span>
+                <a href="https://www.adexchanger.com/marketers/how-molson-coors-keeps-creative-effectiveness-on-tap/" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        <article class="brief-card ">
+            <div class="card-header">
+                <span class="card-number">20</span>
+                <span class="card-category">Automation</span>
+                
+            </div>
+            <h3 class="card-title">
+                <a href="https://www.theverge.com/featured-video/892850/i-was-interviewed-by-an-ai-bot-for-a-job" target="_blank" rel="noopener">I was interviewed by an AI bot for a job</a>
+            </h3>
+            <p class="card-tldr">AI avatar job interviews are becoming mainstream, analyzing candidate responses via video calls and potentially changing how companies evaluate talent in the recruitment process.</p>
+            <div class="card-footer">
+                <span class="card-source">The Verge AI</span>
+                <a href="https://www.theverge.com/featured-video/892850/i-was-interviewed-by-an-ai-bot-for-a-job" target="_blank" rel="noopener" class="read-more">Read full article &rarr;</a>
+            </div>
+        </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p class="footer-brand">The AI Marketing Brief</p>
+            <p class="footer-text">
+                Auto-curated daily at 7 AM ET from Marketing Brew, MarTech, HBR, TechCrunch, VentureBeat, AdAge, and more.<br>
+                TLDRs generated by Claude AI. Built by <a href="https://www.linkedin.com/in/aishwaryapandey1094/" target="_blank">Aishwarya Pandey</a>.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Category filtering
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const category = btn.dataset.category;
+                const cards = document.querySelectorAll('.brief-card');
+                let visible = 0;
+
+                cards.forEach(card => {
+                    const cardCat = card.querySelector('.card-category')?.textContent;
+                    if (category === 'all' || cardCat === category) {
+                        card.classList.remove('hidden');
+                        visible++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                document.getElementById('showing-count').textContent =
+                    `Showing ${visible} of 20 stories`;
+            });
+        });
+
+        // Stagger card animations
+        document.querySelectorAll('.brief-card').forEach((card, i) => {
+            card.style.animationDelay = `${i * 0.04}s`;
+        });
+    </script>
+</body>
+</html>
