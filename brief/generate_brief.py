@@ -230,7 +230,24 @@ def generate_html(briefs, generated_at):
         cat_nav += f'<button class="cat-btn" data-category="{cat}">{cat} <span class="cat-count">{count}</span></button>\n'
 
     EMPTY_STATE_HTML = '<div class="empty-state"><h2>Brewing the brief...</h2><p>Check back at 7:00 AM ET for today\'s stories.</p></div>'
+ga4_snippet = """<!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FMJ1MNNRLQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FMJ1MNNRLQ');
+    </script>"""
+```
 
+Then find this line inside the HTML template:
+```
+    <meta property="og:type" content="website">
+```
+
+Right **after** that line, add:
+```
+    {ga4_snippet}
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
